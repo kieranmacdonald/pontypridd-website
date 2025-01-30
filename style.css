@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'Emi';
+    src: url('media/fonts/EmisHandwriting-Regular.woff') format('woff'),
+         url('media/fonts/EmisHandwriting-Regular.ttf') format('truetype');
+}
+
+html {
+    max-height: 100vh;
+    overflow: none;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    font-family: 'Emi', Arial, Helvetica, sans-serif;
+}
+
+#titles {
+    width: 100vw;
+    max-height: 10vh;
+    display: block;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    font-size: 5em;
+    margin-bottom: 2vh;
+}
+
+h3 {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    margin: 0;
+}
+
+model-viewer {
+    display: block;
+    width: 100vw;
+    height: 70vh;
+    max-height: 90vh;
+}
+
+model-viewer::part(default-progress-bar) {
+    display: none;
+}
