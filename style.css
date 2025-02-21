@@ -5,13 +5,12 @@
 }
 
 html {
-    max-height: 100vh;
-    overflow: none;
+    overflow: hidden;
     padding: 0;
 }
 
 body {
-    height: 100vh;
+    height: 100%;
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
@@ -47,4 +46,14 @@ h3 {
 
 #bridgeModel::part(default-progress-bar) {
     display: none;
+}
+
+#scribbles {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
 }
