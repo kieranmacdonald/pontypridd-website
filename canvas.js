@@ -1,67 +1,77 @@
 // A function that does everything from fetching the images
 // to drawing them on the canvas, side by side.
 async function drawImagesOnCanvas() {
-    try {
-      // 1. Fetch the data
+  try {
+      // Fetch the data
       const apiUrl = 'http://pontypridd.wales:5000/scribble';
       const response = await fetch(apiUrl);
-  
+
       if (!response.ok) {
-        throw new Error(`HTTP error: ${response.status}`);
+          throw new Error(`HTTP error: ${response.status}`);
       }
-  
-      // 2. Parse the JSON
+
+      // Parse JSON response
       const data = await response.json();
-      // Expecting `data` to be an array of objects, each with a `base64` property.
       console.log('Fetched data:', data);
-  
-      // 3. Get the canvas and context
+
+      // Get the canvas and context
       const canvas = document.getElementById('scribbles');
       const ctx = canvas.getContext('2d');
-  
-      // (Optional) If you want to reduce blur when scaling:
-      // Turn off image smoothing for a crisper (though more pixelated) appearance
-      ctx.imageSmoothingEnabled = false;
-      ctx.imageSmoothingQuality = 'high';
-  
-      // 4. Loop through each item in the data array and draw images side by side
-      //    Let's assume each image is drawn at 100×100
-      const drawSize = 100;
-  
-      data.forEach((item, index) => {
-        // Create a new Image
-        const img = new Image();
-  
-        img.onload = () => {
-          // Calculate x based on the index
-          const x = index * drawSize; // side-by-side horizontally
-          const y = 0;
-  
-          // Draw the image at 100×100
-          ctx.drawImage(img, x, y, drawSize, drawSize);
-        };
-  
-        img.onerror = (err) => {
-          console.error('Image failed to load:', err);
-        };
-  
-        // 5. Ensure the base64 string has the proper data URI prefix
-        //    If the API only returns the raw base64 (no "data:image/png;base64," prefix),
-        //    then we need to add it:
-        const base64String = item.base64;
-        if (!base64String.startsWith('data:')) {
-          img.src = 'data:image/png;base64,' + base64String;
-        } else {
-          img.src = base64String;
-        }
+
+      // Max height for consistency (adjust as needed)
+      const maxHeight = 150;
+      const spacing = 10; // Space between images
+      let totalWidth = 0; // To calculate the canvas width
+
+      // Load images and calculate dynamic sizes
+      const images = await Promise.all(
+          data.map(item => new Promise((resolve, reject) => {
+              const img = new Image();
+              img.onload = () => {
+                  // Scale proportionally to fit maxHeight
+                  const scale = (maxHeight / img.height) * 0.8;
+                  const newWidth = img.width * scale;
+                  const newHeight = img.height * scale;
+
+                  // Increase total width to fit this image
+                  totalWidth += newWidth + spacing;
+
+                  resolve({ img, newWidth, newHeight });
+              };
+              img.onerror = reject;
+
+              // Ensure base64 string has correct data URI prefix
+              img.src = item.base64.startsWith('data:')
+                  ? item.base64
+                  : `data:image/png;base64,${item.base64}`;
+          }))
+      );
+
+      // Dynamically set canvas size
+      canvas.width = totalWidth - spacing; // Remove last extra space
+      canvas.height = maxHeight;
+      canvas.style.width = `${canvas.width}px`;
+      canvas.style.height = `${canvas.height}px`;
+
+      // Ensure image smoothing is off for better quality
+      // ctx.imageSmoothingEnabled = false;
+
+      // Draw each image in the correct position
+      let xOffset = 0;
+      images.forEach(({ img, newWidth, newHeight }) => {
+          ctx.drawImage(img, xOffset, (maxHeight - newHeight) / 2, newWidth, newHeight);
+          xOffset += newWidth + spacing; // Move to the right for next image
       });
-  
-    } catch (error) {
+
+  } catch (error) {
       console.error('Error fetching or drawing images:', error);
-    }
+  }
 }
-  
+
+// Call function to draw images
 drawImagesOnCanvas();
+
+
   
 
 /*
