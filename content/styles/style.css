@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Emi';
-    src: url('media/fonts/EmisHandwriting-Regular.woff') format('woff'),
-         url('media/fonts/EmisHandwriting-Regular.ttf') format('truetype');
+    src: url('../fonts/EmisHandwriting-Regular.woff') format('woff'),
+         url('../fonts/EmisHandwriting-Regular.ttf') format('truetype');
 }
 
 html {
@@ -12,43 +12,49 @@ html {
 
 body {
     height: 100%;
+    padding-top: 10%;
     margin: 0;
-    padding: 0;
     background-color: #f0f0f0;
     font-family: 'Emi', Arial, Helvetica, sans-serif;
 }
 
-#titles {
-    width: 100vw;
-    max-height: 10vh;
+#title-header {
+    position: fixed;
     display: block;
+    width: 100%;
+    max-height: 10vh;
+    margin-bottom: 10%;
+    z-index: 99999;
 }
+
 h1 {
-    width: auto;
     text-align: center;
     font-size: 5em;
     margin-bottom: 2vh;
 }
 
 h1 > span {
-    height: auto;
-    width: auto;
     padding-top: 20px;
     background-color: #f0f0f0;
 }
 
-
-h2 {
-    width: auto;
-    text-align: center;
+h2, h3 {
+    text-align: center; 
     font-size: 2em;
     margin: 0;
 }
 
 h2 > span {
-    height: auto;
-    width: auto;
     background-color: #f0f0f0;
+}
+
+#sign-pledge {
+    margin-top: 2%;
+}
+
+#sign-pledge span:hover {
+    cursor: pointer;
+    border: 2px dashed #000;
 }
 
 model-viewer {

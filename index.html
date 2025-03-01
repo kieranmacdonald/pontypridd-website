@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>praise the bridge</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="content/styles/style.css">
 </head>
 <body>
     
-    <div id="titles">
+    <div id="title-header">
         <h1><span>PRAISE THE BRIDGE</span></h1>
         <h2><span style="padding-top: 35px;">submit to the bridge, for It will provide.</span></h2>
         <h2><span>your salvation awaits 🙏</span></h2>
+        <h3 id="sign-pledge"><span>sign the pledge ✍️</span></h3>
     </div>
 
     <model-viewer 
         id="bridgeModel"
-        src="media/model/model.glb"
+        src="content/model/model.glb"
         loading="eager" 
         autoplay 
         auto-rotate 
@@ -30,7 +31,8 @@
 
     <canvas id="scribbles"></canvas>
 
-    <!-- <script src="rotation.js"></script> -->
-    <script src="canvas.js"></script>
+    <!-- <script src="content/scripts/rotation.js"></script> -->
+    <script src="content/scripts/canvas.js"></script>
+    <script src="content/scripts/signature.js"></script>
 </body>
 </html>
